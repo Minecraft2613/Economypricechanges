@@ -1,0 +1,271 @@
+:root {
+  /* Light Theme Colors */
+  --bg-color: #e8eaf6;
+  --header-bg: #ffffff;
+  --text-color: #333333;
+  --accent-color: #2196f3;
+  --table-bg: #ffffff;
+  --table-header-bg: #e9ecef;
+  --table-border: #dee2e6;
+  --new-price-color: #28a745;
+  --button-bg: #2196f3;
+  --button-hover-bg: #1976d2;
+  --button-active-bg: #28a745;
+  --section-bg: #ffffff;
+  --section-shadow: rgba(0, 0, 0, 0.1);
+  --section-hover-shadow: rgba(33, 150, 243, 0.4);
+
+  /* Glowing effect variables */
+  --glowing-color: #00FFFF;
+  --glowing-brightness: 0.7; /* Controls the blur/spread */
+  --glowing-intensity: 5; /* Controls the number of shadow layers */
+}
+
+/* Dark Theme Colors */
+body.dark-mode {
+  --bg-color: #1a1a2e;
+  --header-bg: #0f3460;
+  --text-color: #e0e0e0;
+  --accent-color: #e94560;
+  --table-bg: #16213e;
+  --table-header-bg: #e94560;
+  --table-border: #0f3460;
+  --new-price-color: #00ff00;
+  --button-bg: #e94560;
+  --button-hover-bg: #ff6b81;
+  --button-active-bg: #00ff00;
+  --section-bg: #0f3460;
+  --section-shadow: rgba(0, 0, 0, 0.5);
+  --section-hover-shadow: rgba(233, 69, 96, 0.7);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+header {
+  background-color: var(--header-bg);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px var(--section-shadow);
+  position: sticky; /* Make the header stick to the top */
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+h1 {
+  color: var(--accent-color);
+  margin: 0;
+  text-shadow: 0 0 15px var(--section-hover-shadow);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.nav-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Allow buttons to wrap to a new line */
+  gap: 10px;
+  padding: 10px;
+}
+.nav-buttons button {
+  background-color: var(--button-bg);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 5px var(--section-hover-shadow);
+  flex-shrink: 0;
+}
+.nav-buttons button:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px var(--section-hover-shadow);
+}
+.nav-buttons button.active {
+  background-color: var(--button-active-bg);
+  color: var(--header-bg);
+  box-shadow: 0 0 15px var(--glowing-color);
+}
+main {
+  flex-grow: 1;
+  padding: 20px;
+}
+.shop-section {
+  background-color: var(--section-bg);
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--section-shadow);
+  transition: all 0.3s ease-in-out;
+}
+h2 {
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 5px;
+  margin-top: 0;
+  text-shadow: 0 0 5px var(--section-hover-shadow);
+  transition: color 0.3s ease, text-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: var(--table-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px var(--section-shadow); /* Default table shadow */
+  table-layout: fixed; /* Ensures table columns are sized evenly */
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+}
+
+/* New glowing effect for the table border */
+table.glowing-effect {
+  border: 2px solid var(--glowing-color);
+  box-shadow: 
+    0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color),
+    0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color),
+    0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color),
+    0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color),
+    0 0 calc(var(--glowing-brightness) * 25px) var(--glowing-color); /* Initial glow */
+}
+
+/* Adjust box-shadow based on intensity */
+table.glowing-effect[data-intensity="1"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color); }
+table.glowing-effect[data-intensity="2"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color); }
+table.glowing-effect[data-intensity="3"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color); }
+table.glowing-effect[data-intensity="4"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color); }
+table.glowing-effect[data-intensity="5"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 25px) var(--glowing-color); }
+table.glowing-effect[data-intensity="6"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 25px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 30px) var(--glowing-color); }
+table.glowing-effect[data-intensity="7"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 25px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 30px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 35px) var(--glowing-color); }
+table.glowing-effect[data-intensity="8"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 25px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 30px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 35px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 40px) var(--glowing-color); }
+table.glowing-effect[data-intensity="9"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 25px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 30px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 35px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 40px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 45px) var(--glowing-color); }
+table.glowing-effect[data-intensity="10"] { box-shadow: 0 0 calc(var(--glowing-brightness) * 5px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 10px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 15px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 20px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 25px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 30px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 35px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 40px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 45px) var(--glowing-color), 0 0 calc(var(--glowing-brightness) * 50px) var(--glowing-color); }
+
+th, td {
+  border: 1px solid var(--table-border);
+  padding: 12px;
+  text-align: left;
+  word-wrap: break-word; /* Prevents long text from overflowing */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+th {
+  background-color: var(--table-header-bg);
+  color: var(--text-color);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+td {
+  background-color: var(--table-bg);
+  transition: background-color 0.3s ease;
+}
+td strong {
+  color: var(--new-price-color);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+.pagination-controls {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.pagination-controls button {
+  background-color: var(--button-bg);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.pagination-controls button:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-2px);
+}
+.pagination-controls button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  transform: none;
+}
+.page-info {
+  color: var(--text-color);
+  font-size: 0.9em;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+.hidden {
+  display: none;
+}
+.note {
+  background-color: var(--section-bg);
+  border-left: 5px solid var(--accent-color);
+  padding: 15px;
+  margin-bottom: 30px;
+  color: var(--text-color);
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-left-color 0.3s ease;
+}
+
+/* Settings Panel */
+.settings-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: var(--section-bg);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--section-shadow);
+  z-index: 1001;
+  display: none;
+  border: 1px solid var(--table-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.settings-panel.active {
+  display: block;
+}
+.settings-panel button {
+  margin-top: 10px;
+  width: 100%;
+}
+.settings-toggle-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: var(--button-bg);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  z-index: 1002;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 5px var(--section-shadow);
+}
+.settings-toggle-button:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px var(--section-hover-shadow);
+}
+.settings-panel label {
+  display: block;
+  margin-top: 10px;
+}
+.settings-panel input[type="range"],
+.settings-panel input[type="color"] {
+  width: 100%;
+  margin-top: 5px;
+}
