@@ -88,6 +88,12 @@ const shopPages = {
     tables: [],
     pageInfo: null,
     filePath: './data/z_everythingelse.html'
+  },
+  blocks: {
+    currentPage: 0,
+    tables: [],
+    pageInfo: null,
+    filePath: './data/blocks.html'
   }
 };
 
