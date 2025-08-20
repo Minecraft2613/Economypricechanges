@@ -269,3 +269,8 @@ td strong {
   width: 100%;
   margin-top: 5px;
 }
+
+.mismatch-highlight {
+  border: 2px solid red !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
+}

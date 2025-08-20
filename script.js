@@ -320,3 +320,94 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show the default shop on load
   showShop(currentShopId);
 });
+
+async function triggerUpdate() {
+  const workerUrl = 'https://economychange.mk2899833.workers.dev/'; // Your Cloudflare Worker URL
+  alert('Initiating price update... This may take a moment.');
+
+  try {
+    const response = await fetch(workerUrl);
+    const result = await response.json();
+
+    if (response.ok) {
+      let message = 'Price update completed!\n\nResults:\n';
+      result.results.forEach(res => message += `- ${res}\n`);
+      if (result.errors.length > 0) {
+        message += '\nErrors:\n';
+        result.errors.forEach(err => message += `- ${err}\n`);
+      }
+      alert(message);
+    } else {
+      alert(`Error initiating update: ${result.errors.join('\n') || response.statusText}`);
+    }
+  } catch (error) {
+    alert(`Failed to connect to update service: ${error.message}`);
+  }
+}
+
+async function comparePrices() {
+  const workerUrl = 'https://economychange.mk2899833.workers.dev/?action=compare'; // Your Cloudflare Worker URL with compare action
+  alert('Comparing prices... This may take a moment.');
+
+  // Clear previous highlights
+  clearMismatchHighlights();
+
+  try {
+    const response = await fetch(workerUrl);
+    const result = await response.json();
+
+    if (response.ok) {
+      if (result.mismatches.length > 0) {
+        let message = 'Mismatches found!\n\n';
+        result.mismatches.forEach(mismatch => {
+          message += `Category: ${mismatch.category}, Material: ${mismatch.material}\n`;
+          if (mismatch.htmlBuyPrice !== mismatch.yamlBuyPrice) {
+            message += `  Buy Price: HTML=${mismatch.htmlBuyPrice}, YAML=${mismatch.yamlBuyPrice}\n`;
+          }
+          if (mismatch.htmlSellPrice !== mismatch.yamlSellPrice) {
+            message += `  Sell Price: HTML=${mismatch.htmlSellPrice}, YAML=${mismatch.yamlSellPrice}\n`;
+          }
+          // Highlight the corresponding row in the currently displayed table
+          highlightMismatch(mismatch.material);
+        });
+        alert(message);
+      } else {
+        alert('No mismatches found. Prices are in sync!');
+      }
+
+      if (result.errors.length > 0) {
+        let errorMessage = 'Errors during comparison:\n';
+        result.errors.forEach(err => errorMessage += `- ${err}\n`);
+        alert(errorMessage);
+      }
+
+    } else {
+      alert(`Error during comparison: ${result.errors.join('\n') || response.statusText}`);
+    }
+  } catch (error) {
+    alert(`Failed to connect to comparison service: ${error.message}`);
+  }
+}
+
+function highlightMismatch(material) {
+  const currentTable = shopPages[currentShopId].tables[shopPages[currentShopId].currentPage];
+  if (currentTable) {
+    const rows = currentTable.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const materialCell = row.querySelector('td:first-child');
+      if (materialCell && materialCell.textContent.trim() === material) {
+        row.classList.add('mismatch-highlight');
+      }
+    });
+  }
+}
+
+function clearMismatchHighlights() {
+  const allTables = document.querySelectorAll('table');
+  allTables.forEach(table => {
+    const highlightedRows = table.querySelectorAll('tr.mismatch-highlight');
+    highlightedRows.forEach(row => {
+      row.classList.remove('mismatch-highlight');
+    });
+  });
+}
