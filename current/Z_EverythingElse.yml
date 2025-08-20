@@ -1,0 +1,83 @@
+pages:
+  page1:
+    items:
+      '1':
+        material: BOOK
+        buy: 22.0
+        sell: 17.6
+      '2':
+        material: PAPER
+        buy: 1.1
+        sell: 0.88
+      '3':
+        material: FEATHER
+        buy: 6.6
+        sell: 5.28
+      '4':
+        material: INK_SAC
+        buy: 11.0
+        sell: 8.8
+      '5':
+        material: COMPASS
+        buy: 29.51
+        sell: 23.61
+      '6':
+        material: CLOCK
+        buy: 42.27
+        sell: 33.82
+      '7':
+        material: SHEARS
+        buy: 22.0
+        sell: 17.6
+      '8':
+        material: FLINT_AND_STEEL
+        buy: 16.5
+        sell: 13.2
+      '9':
+        material: BUCKET
+        buy: 33.0
+        sell: 26.4
+      '10':
+        material: NAME_TAG
+        buy: 55.0
+        sell: 44.0
+      '11':
+        material: SADDLE
+        buy: 55.0
+        sell: 44.0
+      '12':
+        material: LEAD
+        buy: 55.0
+        sell: 44.0
+      '13':
+        material: ELYTRA
+        buy: 12998.7
+        sell: -1.0
+      '14':
+        material: TOTEM_OF_UNDYING
+        buy: 5200.0
+        sell: 4160.0
+      '15':
+        material: ENDER_PEARL
+        buy: 7.7
+        sell: 6.16
+      '16':
+        material: ENDER_EYE
+        buy: 55.0
+        sell: 44.0
+      '17':
+        material: SHULKER_SHELL
+        buy: 55.0
+        sell: 44.0
+      '18':
+        material: NETHER_STAR
+        buy: 6500.0
+        sell: 5200.0
+      '19':
+        material: BEACON
+        buy: 5598.6
+        sell: -1.0
+      '20':
+        material: CONDUIT
+        buy: 198.0
+        sell: 158.4

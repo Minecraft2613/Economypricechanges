@@ -62,8 +62,25 @@
     <div id="shop-content">
       <!-- Shop content will be loaded here dynamically -->
     </div>
+
+    <section class="update-yamls-section shop-section">
+      <h2>Update YAML Prices</h2>
+      <p>Click the button below to update all .yml files in the 'current' folder with the latest prices from ShopWebApp.</p>
+      <button id="updateYamlsButton">Update All YAMLs</button>
+      <div id="update-status">
+        <!-- Update status will be displayed here -->
+      </div>
+    </section>
+
+    <section class="yaml-comparison-section shop-section">
+      <h2>YAML Price Comparison (All .yml files in 'current' vs. ShopWebApp's latest prices)</h2>
+      <p>Comparing all .yml files in <code>C:\Users\Saksh\ShopProject\current</code> against the consolidated latest prices from <code>C:\Users\Saksh\ShopWebApp</code>.</p>
+      <div id="comparison-results">
+        <!-- Comparison results will be displayed here -->
+      </div>
+    </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <script src="script.js"></script>
 </body>
-</html>
