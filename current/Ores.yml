@@ -2,7 +2,7 @@ pages:
   page1:
     items:
       '1':
-        buy: 35
+        buy: 3
         material: AMETHYST_BLOCK
         sell: 25.59
       '10':
