@@ -325,24 +325,44 @@ async function triggerUpdate() {
   const workerUrl = 'https://economychange.mk2899833.workers.dev/update'; // Your Cloudflare Worker URL
   alert('Initiating price update... This may take a moment.');
 
-  try {
-    const response = await fetch(workerUrl);
-    const result = await response.json();
-
-    if (response.ok) {
-      let message = 'Price update completed!\n\nResults:\n';
-      result.results.forEach(res => message += `- ${res}\n`);
-      if (result.errors.length > 0) {
-        message += '\nErrors:\n';
-        result.errors.forEach(err => message += `- ${err}\n`);
+  fetch(workerUrl)
+    .then(response => {
+      // Check if the response is successful (status 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      alert(message);
-    } else {
-      alert(`Error initiating update: ${result.errors.join('\n') || response.statusText}`);
-    }
-  } catch (error) {
-    alert(`Failed to connect to update service: ${error.message}`);
-  }
+      // Check the Content-Type of the response
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        // If it's JSON, parse it as JSON
+        return response.json();
+      } else {
+        // Otherwise, assume it's plain text and read it as text
+        return response.text();
+      }
+    })
+    .then(data => {
+      // Now handle the data based on its type
+      if (typeof data === 'string') {
+        console.log('Received a plain text response:', data);
+        // Display the text message to the user
+        alert(data);
+      } else {
+        console.log('Received a JSON object:', data);
+        // Handle the JSON data (e.g., list mismatches)
+        let message = 'Price update completed!\n\nResults:\n';
+        data.results.forEach(res => message += `- ${res}\n`);
+        if (data.errors.length > 0) {
+          message += '\nErrors:\n';
+          data.errors.forEach(err => message += `- ${err}\n`);
+        }
+        alert(message);
+      }
+    })
+    .catch(error => {
+      console.error('Failed to connect to update service:', error);
+      alert(`Failed to connect to update service: ${error.message}`);
+    });
 }
 
 async function comparePrices() {
@@ -352,41 +372,59 @@ async function comparePrices() {
   // Clear previous highlights
   clearMismatchHighlights();
 
-  try {
-    const response = await fetch(workerUrl);
-    const result = await response.json();
-
-    if (response.ok) {
-      if (result.mismatches.length > 0) {
-        let message = 'Mismatches found!\n\n';
-        result.mismatches.forEach(mismatch => {
-          message += `Category: ${mismatch.category}, Material: ${mismatch.material}\n`;
-          if (mismatch.htmlBuyPrice !== mismatch.yamlBuyPrice) {
-            message += `  Buy Price: HTML=${mismatch.htmlBuyPrice}, YAML=${mismatch.yamlBuyPrice}\n`;
-          }
-          if (mismatch.htmlSellPrice !== mismatch.yamlSellPrice) {
-            message += `  Sell Price: HTML=${mismatch.htmlSellPrice}, YAML=${mismatch.yamlSellPrice}\n`;
-          }
-          // Highlight the corresponding row in the currently displayed table
-          highlightMismatch(mismatch.material);
-        });
-        alert(message);
+  fetch(workerUrl)
+    .then(response => {
+      // Check if the response is successful (status 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // Check the Content-Type of the response
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        // If it's JSON, parse it as JSON
+        return response.json();
+      }
+      // Otherwise, assume it's plain text and read it as text
+      return response.text();
+    })
+    .then(data => {
+      // Now handle the data based on its type
+      if (typeof data === 'string') {
+        console.log('Received a plain text response:', data);
+        // Display the text message to the user
+        alert(data);
       } else {
-        alert('No mismatches found. Prices are in sync!');
-      }
+        console.log('Received a JSON object:', data);
+        // Handle the JSON data (e.g., list mismatches)
+        if (data.mismatches.length > 0) {
+          let message = 'Mismatches found!\n\n';
+          data.mismatches.forEach(mismatch => {
+            message += `Category: ${mismatch.category}, Material: ${mismatch.material}\n`;
+            if (mismatch.htmlBuyPrice !== mismatch.yamlBuyPrice) {
+              message += `  Buy Price: HTML=${mismatch.htmlBuyPrice}, YAML=${mismatch.yamlBuyPrice}\n`;
+            }
+            if (mismatch.htmlSellPrice !== mismatch.yamlSellPrice) {
+              message += `  Sell Price: HTML=${mismatch.htmlSellPrice}, YAML=${mismatch.yamlSellPrice}\n`;
+            }
+            // Highlight the corresponding row in the currently displayed table
+            highlightMismatch(mismatch.material);
+          });
+          alert(message);
+        } else {
+          alert('No mismatches found. Prices are in sync!');
+        }
 
-      if (result.errors.length > 0) {
-        let errorMessage = 'Errors during comparison:\n';
-        result.errors.forEach(err => errorMessage += `- ${err}\n`);
-        alert(errorMessage);
+        if (data.errors.length > 0) {
+          let errorMessage = 'Errors during comparison:\n';
+          data.errors.forEach(err => errorMessage += `- ${err}\n`);
+          alert(errorMessage);
+        }
       }
-
-    } else {
-      alert(`Error during comparison: ${result.errors.join('\n') || response.statusText}`);
-    }
-  } catch (error) {
-    alert(`Failed to connect to comparison service: ${error.message}`);
-  }
+    })
+    .catch(error => {
+      console.error('Failed to connect to comparison service:', error);
+      alert(`Failed to connect to comparison service: ${error.message}`);
+    });
 }
 
 function highlightMismatch(material) {
