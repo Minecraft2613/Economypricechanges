@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function triggerUpdate() {
-  const workerUrl = 'https://economychange.mk2899833.workers.dev/'; // Your Cloudflare Worker URL
+  const workerUrl = 'https://economychange.mk2899833.workers.dev/update'; // Your Cloudflare Worker URL
   alert('Initiating price update... This may take a moment.');
 
   try {
@@ -346,7 +346,7 @@ async function triggerUpdate() {
 }
 
 async function comparePrices() {
-  const workerUrl = 'https://economychange.mk2899833.workers.dev/?action=compare'; // Your Cloudflare Worker URL with compare action
+  const workerUrl = 'https://economychange.mk2899833.workers.dev/compare'; // Your Cloudflare Worker URL with compare action
   alert('Comparing prices... This may take a moment.');
 
   // Clear previous highlights
