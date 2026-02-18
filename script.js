@@ -155,15 +155,16 @@ async function downloadAllPDF() {
 async function generatePDF(categories, filename) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-
-  let firstPage = true;
+  const categoryPageTracker = [];
+  let firstCategory = true;
 
   for (const cat of categories) {
-    if (!firstPage) doc.addPage();
-    firstPage = false;
+    if (!firstCategory) doc.addPage();
+
+    const startPage = doc.internal.getNumberOfPages();
+    const display = cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, ' ');
 
     // Add Category Title
-    const display = cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, ' ');
     doc.setFontSize(18);
     doc.text(`${display} Price Changes`, 14, 22);
 
@@ -180,14 +181,7 @@ async function generatePDF(categories, filename) {
           startY: 30,
           styles: { fontSize: 8 },
           headStyles: { fillColor: [56, 189, 248] },
-          didDrawPage: (data) => {
-            // Footer
-            const str = `Category: ${display} | Page ${data.pageNumber}`;
-            doc.setFontSize(10);
-            const pageSize = doc.internal.pageSize;
-            const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-            doc.text(str, data.settings.margin.left, pageHeight - 10);
-          }
+          margin: { bottom: 20 } // Space for footer
         });
       } else {
         doc.text("No data available for this category.", 14, 40);
@@ -196,7 +190,30 @@ async function generatePDF(categories, filename) {
       console.error(e);
       doc.text("Error loading data.", 14, 40);
     }
+
+    const endPage = doc.internal.getNumberOfPages();
+    categoryPageTracker.push({ name: display, start: startPage, end: endPage });
+    firstCategory = false;
   }
+
+  // Second Pass: Add Footers with "Page X of Y" for each category
+  const totalDocPages = doc.internal.getNumberOfPages();
+  categoryPageTracker.forEach(info => {
+    const categoryTotalPages = info.end - info.start + 1;
+    for (let i = info.start; i <= info.end; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      const footerText = `${info.name} Page ${i - info.start + 1} of ${categoryTotalPages}`;
+      const pageSize = doc.internal.pageSize;
+      const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+      const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+
+      // Center the footer text
+      const textWidth = doc.getTextWidth(footerText);
+      doc.text(footerText, (pageWidth - textWidth) / 2, pageHeight - 10);
+    }
+  });
 
   doc.save(filename);
 }
