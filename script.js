@@ -127,19 +127,84 @@ function toggleTheme() {
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 
+function initPdfCategories() {
+  const picker = document.getElementById('pdfCategoryPicker');
+  if (!picker) return;
+
+  Object.keys(shopPages).forEach(cat => {
+    const label = document.createElement('label');
+    const display = cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, ' ');
+    label.innerHTML = `<input type="checkbox" value="${cat}" class="pdf-category-checkbox"> ${display}`;
+    picker.appendChild(label);
+  });
+}
+
+async function downloadSelectedPDF() {
+  const selected = Array.from(document.querySelectorAll('.pdf-category-checkbox:checked')).map(cb => cb.value);
+  if (selected.length === 0) {
+    alert("Please select at least one category to download.");
+    return;
+  }
+  await generatePDF(selected, "selected_price_changes.pdf");
+}
+
+async function downloadAllPDF() {
+  await generatePDF(Object.keys(shopPages), "all_price_changes.pdf");
+}
+
+async function generatePDF(categories, filename) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let firstPage = true;
+
+  for (const cat of categories) {
+    if (!firstPage) doc.addPage();
+    firstPage = false;
+
+    // Add Category Title
+    const display = cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, ' ');
+    doc.setFontSize(18);
+    doc.text(`${display} Price Changes`, 14, 22);
+
+    try {
+      const resp = await fetch(shopPages[cat].filePath);
+      const htmlText = await resp.text();
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(htmlText, 'text/html');
+      const table = htmlDoc.querySelector('table');
+
+      if (table) {
+        doc.autoTable({
+          html: table,
+          startY: 30,
+          styles: { fontSize: 8 },
+          headStyles: { fillColor: [56, 189, 248] }
+        });
+      } else {
+        doc.text("No data available for this category.", 14, 40);
+      }
+    } catch (e) {
+      console.error(e);
+      doc.text("Error loading data.", 14, 40);
+    }
+  }
+
+  doc.save(filename);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
   }
+  initPdfCategories();
   showShop(currentShopId);
 });
 
-// Existing functions (Update and Compare) scaled down for simplicity if needed
 async function triggerUpdate() {
-  alert('Initiating background update process...');
-  // Logic remains similar but simplified for user experience
+  alert('Initiating background update process... This usually runs via the Python script.');
 }
 
 async function comparePrices() {
-  alert('Verifying synchronization status...');
+  alert('Comparing current shop files with legacy records...');
 }

@@ -40,6 +40,17 @@
       <input type="text" id="searchInput" placeholder="Search materials (e.g. Diamond)..." onkeyup="filterTable()">
     </div>
 
+    <div class="pdf-export-section">
+      <h3>PDF Export Options</h3>
+      <div class="pdf-category-picker" id="pdfCategoryPicker">
+        <!-- Will be populated dynamically for easier maintenance -->
+      </div>
+      <div class="utility-buttons" style="margin-top: 0;">
+        <button onclick="downloadSelectedPDF()">Download Selected PDF</button>
+        <button onclick="downloadAllPDF()">Download All Categories (PDF)</button>
+      </div>
+    </div>
+
     <div id="shop-content">
       <!-- Shop content will be loaded here dynamically -->
     </div>
@@ -51,10 +62,12 @@
     <h3>Customization</h3>
     <button onclick="toggleTheme()" id="themeToggleButton">Switch Theme</button>
     <div style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">
-      <p>Simplified UI focused on efficiency and clarity.</p>
+      <p>Clean, mobile-first design for managing economy changes.</p>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="script.js"></script>
 </body>
 
