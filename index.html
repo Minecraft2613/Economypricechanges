@@ -29,10 +29,6 @@
       <button onclick="showShop('workstations')">Workstations</button>
       <button onclick="showShop('z_everythingelse')">Others</button>
     </div>
-    <div class="utility-buttons">
-      <button onclick="triggerUpdate()">Update All Prices</button>
-      <button onclick="comparePrices()">Verify Sync</button>
-    </div>
   </header>
 
   <main>
@@ -40,12 +36,14 @@
       <input type="text" id="searchInput" placeholder="Search materials (e.g. Diamond)..." onkeyup="filterTable()">
     </div>
 
-    <div class="pdf-export-section">
+    <button class="pdf-toggle-btn" onclick="togglePdfSection()">Want to download it as a PDF?</button>
+
+    <div class="pdf-export-section" id="pdfExportSection">
       <h3>PDF Export Options</h3>
       <div class="pdf-category-picker" id="pdfCategoryPicker">
-        <!-- Will be populated dynamically for easier maintenance -->
+        <!-- Will be populated dynamically -->
       </div>
-      <div class="utility-buttons" style="margin-top: 0;">
+      <div class="utility-buttons" style="margin-top: 0; justify-content: flex-start;">
         <button onclick="downloadSelectedPDF()">Download Selected PDF</button>
         <button onclick="downloadAllPDF()">Download All Categories (PDF)</button>
       </div>

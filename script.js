@@ -193,6 +193,11 @@ async function generatePDF(categories, filename) {
   doc.save(filename);
 }
 
+function togglePdfSection() {
+  const section = document.getElementById('pdfExportSection');
+  section.classList.toggle('active');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
@@ -200,11 +205,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initPdfCategories();
   showShop(currentShopId);
 });
-
-async function triggerUpdate() {
-  alert('Initiating background update process... This usually runs via the Python script.');
-}
-
-async function comparePrices() {
-  alert('Comparing current shop files with legacy records...');
-}

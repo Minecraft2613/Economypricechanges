@@ -50,16 +50,17 @@ body {
 }
 
 header {
-  background-color: var(--header-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  padding: 1.5rem 2rem;
-  text-align: center;
-  box-shadow: 0 4px 6px -1px var(--section-shadow);
-  position: sticky;
+  position: relative;
+  /* Changed from sticky to follow user scroll up */
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--table-border);
+  padding: 1rem 0;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px var(--section-shadow);
 }
 
 h1 {
@@ -91,15 +92,20 @@ button {
 
 .nav-buttons button {
   background-color: var(--table-header-bg);
-  color: var(--text-color);
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
   border: 1px solid var(--table-border);
+  color: var(--text-color);
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-align: center;
 }
 
 .nav-buttons button:hover {
-  background-color: var(--accent-color);
-  color: white;
+  background-color: var(--accent-light);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
   transform: translateY(-1px);
 }
 
@@ -163,9 +169,27 @@ main {
   border-radius: 1rem;
   border: 1px solid var(--table-border);
   margin-bottom: 2rem;
-  display: flex;
+  display: none;
+  /* Hidden by default */
   flex-direction: column;
   gap: 1rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+.pdf-export-section.active {
+  display: flex;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pdf-category-picker {
@@ -189,6 +213,25 @@ main {
   cursor: pointer;
 }
 
+.pdf-toggle-btn {
+  background: linear-gradient(135deg, var(--accent-color), #0ea5e9);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  width: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+}
+
+.pdf-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+}
+
 .shop-section {
   background-color: var(--section-bg);
   padding: 1rem;
@@ -196,7 +239,37 @@ main {
   box-shadow: 0 10px 15px -3px var(--section-shadow);
   border: 1px solid var(--table-border);
   overflow-x: auto;
-  /* Allow horizontal scroll on small screens */
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shop-section:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+  transform: translateY(-5px);
+}
+
+.shop-section::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border-radius: 1rem;
+  padding: 1px;
+  background: linear-gradient(45deg, transparent, var(--accent-color), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.shop-section:hover::after {
+  opacity: 1;
 }
 
 @media (min-width: 768px) {
