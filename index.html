@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Server Economy Data Changes</title>
+  <title>Economy Price Manager</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <header>
-    <h1>Server Economy Data Changes</h1>
+    <h1>Economy Manager</h1>
     <div class="nav-buttons">
       <button onclick="showShop('ores')">Ores</button>
       <button onclick="showShop('farming')">Farming</button>
@@ -17,47 +19,25 @@
       <button onclick="showShop('decoration')">Decoration</button>
       <button onclick="showShop('dyes')">Dyes</button>
       <button onclick="showShop('enchanting')">Enchanting</button>
-      <button onclick="showShop('miscellaneous')">Miscellaneous</button>
+      <button onclick="showShop('miscellaneous')">Misc</button>
       <button onclick="showShop('mobs')">Mobs</button>
       <button onclick="showShop('music')">Music</button>
       <button onclick="showShop('potions')">Potions</button>
       <button onclick="showShop('redstone')">Redstone</button>
-      <button onclick="showShop('spawneggs')">Spawn Eggs</button>
+      <button onclick="showShop('spawneggs')">Eggs</button>
       <button onclick="showShop('spawners')">Spawners</button>
       <button onclick="showShop('workstations')">Workstations</button>
-      <button onclick="showShop('z_everythingelse')">Everything Else</button>
+      <button onclick="showShop('z_everythingelse')">Others</button>
     </div>
-    <button onclick="triggerUpdate()">Update Prices</button>
-    <button onclick="comparePrices()">Compare Prices</button>
+    <div class="utility-buttons">
+      <button onclick="triggerUpdate()">Update All Prices</button>
+      <button onclick="comparePrices()">Verify Sync</button>
+    </div>
   </header>
 
   <main>
-    <div class="note">
-      <p><strong>Note:</strong> This report displays price changes with pagination and enhanced styling. New prices are highlighted in bright green. Use the navigation buttons above to switch between shop categories. Within each category, use the "Previous" and "Next" buttons to navigate through pages.</p>
-    </div>
-
-    <button class="settings-toggle-button" onclick="toggleSettings()">Settings</button>
-    <div class="settings-panel" id="settingsPanel">
-      <h3>Theme Settings</h3>
-      <button onclick="toggleDarkMode()" id="themeToggleButton">Toggle Dark Mode</button>
-      <button onclick="toggleGlowing()" id="glowingToggleButton">Toggle Glowing Effects</button>
-
-      <label for="glowingColorPicker">Glowing Color:</label>
-      <input type="color" id="glowingColorPicker" value="#00FFFF" onchange="updateGlowingColor(this.value)">
-
-      <label for="glowingBrightnessSlider">Brightness:</label>
-      <input type="range" id="glowingBrightnessSlider" min="0.1" max="1.0" step="0.1" value="0.7" oninput="updateGlowingBrightness(this.value)">
-
-      <label for="glowingIntensitySlider">Intensity:</label>
-      <input type="range" id="glowingIntensitySlider" min="1" max="10" step="1" value="5" oninput="updateGlowingIntensity(this.value)">
-
-      <label for="boxColorPicker">Box Color:</label>
-      <input type="color" id="boxColorPicker" value="#FFFFFF" onchange="updateBoxColor(this.value)">
-
-      <label for="bgColorPicker">Background Color:</label>
-      <input type="color" id="bgColorPicker" value="#E8EAF6" onchange="updateBgColor(this.value)">
-
-      <p><em>Note: All theme settings are now fully functional and dynamic.</em></p>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search materials (e.g. Diamond)..." onkeyup="filterTable()">
     </div>
 
     <div id="shop-content">
@@ -65,6 +45,17 @@
     </div>
   </main>
 
+  <button class="settings-toggle-button" onclick="toggleSettings()">⚙️</button>
+
+  <div class="settings-panel" id="settingsPanel">
+    <h3>Customization</h3>
+    <button onclick="toggleTheme()" id="themeToggleButton">Switch Theme</button>
+    <div style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">
+      <p>Simplified UI focused on efficiency and clarity.</p>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
+
 </html>
