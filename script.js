@@ -2,7 +2,7 @@ const shopPages = {
   ores: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/ores.html' },
   farming: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/farming.html' },
   food: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/food.html' },
-  blocks: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/blocks/html' },
+  blocks: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/blocks.html' },
   decoration: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/decoration.html' },
   dyes: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/dyes.html' },
   enchanting: { currentPage: 0, tables: [], pageInfo: null, filePath: './data/enchanting.html' },
