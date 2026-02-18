@@ -179,7 +179,15 @@ async function generatePDF(categories, filename) {
           html: table,
           startY: 30,
           styles: { fontSize: 8 },
-          headStyles: { fillColor: [56, 189, 248] }
+          headStyles: { fillColor: [56, 189, 248] },
+          didDrawPage: (data) => {
+            // Footer
+            const str = `Category: ${display} | Page ${data.pageNumber}`;
+            doc.setFontSize(10);
+            const pageSize = doc.internal.pageSize;
+            const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+            doc.text(str, data.settings.margin.left, pageHeight - 10);
+          }
         });
       } else {
         doc.text("No data available for this category.", 14, 40);
